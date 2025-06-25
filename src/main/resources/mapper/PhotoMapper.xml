@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.x2h.Mapper.PhotoMapper">
+    <insert id="insertPhoto" parameterType="top.x2h.entity.Photo">
+        INSERT INTO `photo` (
+        `album_id`, `url`, `description`
+        ) VALUES (
+        #{albumId}, #{url}, #{description}
+        )
+    </insert>
+
+    <select id="displayPhotoByAlbumId" parameterType="Integer" resultType="top.x2h.entity.Photo">
+        SELECT * FROM `photo` WHERE `album_id` = #{albumId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.x2h.Mapper.AlbumMapper">
+    <select id="displayAllAlbum" parameterType="top.x2h.entity.Album">
+        select * from album where status = 'public'
+    </select>
+
+    <insert id="createAlbum" parameterType="top.x2h.entity.Album" useGeneratedKeys="true" keyProperty="id">
+        insert into album (title,description,cover_url,status,user_id) values (#{title},#{description},#{coverUrl},#{status},#{userId})
+    </insert>
+    
+    <select id="displayAlbumByUserId" parameterType="top.x2h.entity.Album">
+        select * from album where user_id = #{userId}
+    </select>
+
+    <select id="isYourAlbum" parameterType="top.x2h.entity.Album">
+        SELECT IFNULL((SELECT 1 FROM album WHERE id = #{albumId} AND user_id = #{userId} LIMIT 1),0) AS is_owner
+    </select>
+
+    <delete id="deleteAlbum" parameterType="top.x2h.entity.Album">
+        delete from album where id = #{id}
+    </delete>
+
+</mapper>
