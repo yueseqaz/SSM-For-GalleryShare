@@ -21,6 +21,8 @@ public class AdminController {
 @Autowired
     private UserService userService;
 
+
+
 //获取所有用户 ----------已经测试通过
 @GetMapping("/getAllUser")
 public String getAllUser(HttpSession session,

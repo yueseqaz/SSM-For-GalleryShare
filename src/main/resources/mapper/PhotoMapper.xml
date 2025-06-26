@@ -14,5 +14,10 @@
         SELECT * FROM `photo` WHERE `album_id` = #{albumId}
     </select>
 
+    <delete id="deletePhoto" parameterType="Integer">
+        DELETE FROM `photo` WHERE `id` = #{id}
+    </delete>
+
+
 
 </mapper>

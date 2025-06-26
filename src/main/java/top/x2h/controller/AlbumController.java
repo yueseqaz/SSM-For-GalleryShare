@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-
+@CrossOrigin(origins = "*")
 @RequestMapping("/")
 public class AlbumController {
     @Autowired
@@ -31,7 +31,7 @@ public class AlbumController {
         return "gallery";
     }
 
-    //创建相册   ----------已通过测试
+    //创建相册   --------------------已通过测试
     @PostMapping("/album/create")
     public String createAlbum(@ModelAttribute Album album,
                               @RequestParam("photos") List<MultipartFile> photos,
@@ -94,12 +94,15 @@ public class AlbumController {
         albumService.deleteAlbum(id);
         return "redirect:/admin/getAllAlbum";
     }
+
+
+    //管理员获取所有相册   ------------------已通过测试
     @GetMapping("/admin/getAllAlbum")
     public String adminGetAllAlbum(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Model model){
         List<Album> album=albumService.displayAllAlbum();
         List<Album> pagealbum=Sakura.page(album,page,size,model,"album");
         model.addAttribute("album",album);
-        return "admin/getAllAlbum";
+        return "admin/albummanage";
     }
 
 }

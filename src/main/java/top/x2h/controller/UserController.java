@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 查看个人资料  done
+    // 查看个人资料  ------------已通过测试
     @GetMapping("/myProfile")
     public String myProfile(HttpSession  session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -42,7 +42,7 @@ public class UserController {
         return "myProfile";
     }
 
-    // 修改个人资料
+    // 修改个人资料     ------------已通过测试
    @PostMapping("/updateProfile")
    public String updateProfile(@RequestParam String email,
                                @RequestParam String nickname,
@@ -71,7 +71,7 @@ public class UserController {
        return "redirect:/myProfile";
    }
 
-    // 用户详情
+    // 用户详情  --------------已通过测试
     @GetMapping("/toUpdateUser")
     public String toUpdateUser(@RequestParam Integer id, Model model) {
         User user = userService.getUserById(id);
@@ -80,7 +80,7 @@ public class UserController {
     }
 
 
-    // 删除用户
+    // 删除用户  -----------------已通过测试
     @GetMapping("/deleteUser")
     public String deleteUser(@RequestParam Integer id, HttpSession session) {
         User sessionUser = (User) session.getAttribute("user");

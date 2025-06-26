@@ -7,4 +7,5 @@ import java.util.List;
 public interface PhotoMapper {
     void insertPhoto(Photo  photo);
     List<Photo> displayPhotoByAlbumId(Integer albumId);
+    void deletePhoto(Integer id);
 }

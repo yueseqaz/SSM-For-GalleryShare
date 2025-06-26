@@ -14,6 +14,7 @@
 <h1>管理员界面</h1>
 <a href="${pageContext.request.contextPath}/admin/getAllUser">用户管理</a>
 <a href="${pageContext.request.contextPath}/logout">退出登陆</a>
+<a href="${pageContext.request.contextPath}/admin/getAllAlbum">相册管理</a>
 
 </body>
 </html>
