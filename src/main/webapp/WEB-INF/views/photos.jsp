@@ -1,0 +1,80 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: sakura
+  Date: 2025/6/26
+  Time: 14:59
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+  <title>Cos Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", "Microsoft YaHei", sans-serif;
+      background: #fefefe;
+    }
+
+    .gallery-container {
+      column-count: 4;
+      column-gap: 1em;
+      padding: 1em;
+    }
+
+    .photo-box {
+      background: #fff;
+      margin-bottom: 1em;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      break-inside: avoid;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-box:hover {
+      transform: scale(1.02);
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media screen and (max-width: 1200px) {
+      .gallery-container {
+        column-count: 3;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .gallery-container {
+        column-count: 2;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .gallery-container {
+        column-count: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+<a href="${pageContext.request.contextPath}/getAllAlbum">回到gallery</a>
+
+<div class="gallery-container">
+  <c:forEach items="${photos}" var="photo">
+    <div class="photo-box">
+      <img src="${pageContext.request.contextPath}${photo.url}"
+           crossorigin="use-credentials"
+           onerror="this.onerror=null;this.src='images/default-cover.jpg'" />
+    </div>
+  </c:forEach>
+</div>
+
+</body>
+</html>

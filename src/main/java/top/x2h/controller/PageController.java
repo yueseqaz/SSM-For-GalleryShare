@@ -50,5 +50,10 @@ public class PageController {
     public String toUpload() {
         return "upload";
     }//上传图片页面
+    @GetMapping("/tosearch")
+    public String tosearch() {
+        return "search";
+    }
+
 
 }

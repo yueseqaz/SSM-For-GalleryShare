@@ -11,156 +11,149 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <title>用户登录</title>
-    <style>
-        body {
-            font-family: "Segoe UI", sans-serif;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-size: cover;
+    <title>用户登录 - PicShare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        dark: '#1D2939',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
         }
-        .login-box {
-            background-color: white;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            width: 360px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #ff69b4;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        .email-group {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        #emailName {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px 0 0 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-        #emailDomain {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-left: none;
-            border-radius: 0 8px 8px 0;
-            font-size: 14px;
-            background: white;
-            cursor: pointer;
-        }
-        #emailName:focus, #emailDomain:focus {
-            border-color: #ff69b4;
-            outline: none;
-        }
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-        input[type="password"]:focus {
-            border-color: #ff69b4;
-            outline: none;
-        }
-        input[type="submit"] {
-            background-color: #ff69b4;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        input[type="submit"]:hover {
-            background-color: #ff1493;
-        }
-        .links {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        .links a {
-            color: #ff69b4;
-            text-decoration: none;
-        }
-        .links a:hover {
-            text-decoration: underline;
-        }
-        .error-message {
-            color: #d8000c;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-            min-height: 20px;
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .hover-scale {
+                @apply hover:scale-105 transition-all duration-300;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .form-input-focus {
+                @apply focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
+            }
         }
     </style>
 </head>
-<body>
+<body class="font-inter bg-gradient-to-br from-primary/5 to-light min-h-screen flex items-center justify-center p-4">
+<!-- 背景装饰 -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+</div>
 
-<div class="login-box">
-    <h2>🎀 用户登录</h2>
-    <form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" onsubmit="return validateLogin()">
-        <div class="email-group">
-            <input
-                    type="text"
-                    id="emailName"
-                    name="emailName"
-                    placeholder="请输入邮箱用户名"
-                    autocomplete="username"
-                    required
-                    maxlength="64"
-            />
-            <select id="emailDomain" name="emailDomain" required>
-                <option value="@qq.com">@qq.com</option>
-                <option value="@163.com">@163.com</option>
-                <option value="@gmail.com">@gmail.com</option>
-                <option value="@outlook.com">@outlook.com</option>
-                <option value="@icloud.com">@icloud.com</option>
-            </select>
+<div class="relative z-10 w-full max-w-md">
+    <!-- 回到首页链接 -->
+    <div class="text-center mb-8">
+        <a href="${pageContext.request.contextPath}/" class="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors">
+            <i class="fa fa-arrow-left"></i>
+            <span>回到首页</span>
+        </a>
+    </div>
+
+    <!-- 登录卡片 -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden card-shadow hover-scale">
+        <!-- 卡片头部 -->
+        <div class="bg-primary text-white p-6 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-2">
+                <i class="fa fa-camera-retro text-2xl"></i>
+                <h2 class="text-xl font-bold">PicShare</h2>
+            </div>
+            <p class="text-white/80">登录您的账户</p>
         </div>
 
-        <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="请输入密码"
-                required
-                autocomplete="current-password"
-        />
+        <!-- 登录表单 -->
+        <div class="p-8">
+            <form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" onsubmit="return validateLogin()">
+                <!-- 邮箱输入 -->
+                <div class="mb-6">
+                    <label for="emailName" class="block text-sm font-medium text-dark/70 mb-2">邮箱</label>
+                    <div class="flex">
+                        <input
+                                type="text"
+                                id="emailName"
+                                name="emailName"
+                                placeholder="请输入邮箱用户名"
+                                autocomplete="username"
+                                required
+                                maxlength="64"
+                                class="flex-grow px-4 py-3 rounded-l-lg border border-gray-300 form-input-focus transition-custom"
+                        />
+                        <select id="emailDomain" name="emailDomain" required class="px-4 py-3 rounded-r-lg border border-l-0 border-gray-300 bg-white form-input-focus transition-custom">
+                            <option value="@qq.com">@qq.com</option>
+                            <option value="@163.com">@163.com</option>
+                            <option value="@gmail.com">@gmail.com</option>
+                            <option value="@outlook.com">@outlook.com</option>
+                            <option value="@icloud.com">@icloud.com</option>
+                        </select>
+                    </div>
+                </div>
 
-        <input type="hidden" name="email" id="emailFull" />
+                <!-- 密码输入 -->
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-dark/70 mb-2">密码</label>
+                    <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="请输入密码"
+                            required
+                            autocomplete="current-password"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 form-input-focus transition-custom"
+                    />
+                </div>
 
-        <div class="error-message" id="errorMsg">
-            <c:if test="${not empty error}">
-                ${error}
-            </c:if>
+                <!-- 错误消息 -->
+                <div class="mb-6">
+                    <div class="text-red-500 text-sm text-center" id="errorMsg">
+                        <c:if test="${not empty error}">
+                            ${error}
+                        </c:if>
+                    </div>
+                </div>
+
+                <input type="hidden" name="email" id="emailFull" />
+
+                <!-- 登录按钮 -->
+                <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-medium transition-custom shadow-md hover:shadow-lg">
+                    登录
+                </button>
+            </form>
+
+            <!-- 链接 -->
+            <div class="flex justify-between items-center mt-6">
+                <a href="${pageContext.request.contextPath}/register" class="text-primary hover:text-primary/80 text-sm transition-colors">
+                    去注册
+                </a>
+                <a href="${pageContext.request.contextPath}/forgetPassword" class="text-primary hover:text-primary/80 text-sm transition-colors">
+                    忘记密码？
+                </a>
+            </div>
         </div>
+    </div>
 
-        <input type="submit" value="登录" />
-    </form>
-
-    <div class="links">
-        <a href="${pageContext.request.contextPath}/register">去注册</a>
-        <a href="${pageContext.request.contextPath}/forgetPassword">忘记密码？</a>
+    <!-- 页脚 -->
+    <div class="text-center text-dark/60 text-sm mt-8">
+        <p>© 2025 PicShare. 保留所有权利。</p>
     </div>
 </div>
 
@@ -210,7 +203,5 @@
         return true;
     }
 </script>
-
 </body>
 </html>
-

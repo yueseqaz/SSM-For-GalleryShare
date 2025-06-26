@@ -3,6 +3,7 @@ package top.x2h.service.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import top.x2h.Mapper.PhotoMapper;
 import top.x2h.entity.Photo;
 import top.x2h.service.PhotoService;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class PhotoServiceImpl implements PhotoService {
     @Autowired
-    private top.x2h.Mapper.PhotoMapper photoMapper;
+    private PhotoMapper photoMapper;
     @Override
     public List<Photo> displayPhotoByAlbumId(Integer albumId){
         return photoMapper.displayPhotoByAlbumId(albumId);
@@ -64,5 +65,10 @@ public class PhotoServiceImpl implements PhotoService {
     public void deletePhoto(Integer id) {
         photoMapper.deletePhoto(id);
     }
+    @Override
+    public void adminDeletePhoto(Integer id) {
+        photoMapper.deletePhoto(id);
+    }
+
 
 }

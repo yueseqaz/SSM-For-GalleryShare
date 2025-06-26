@@ -2,9 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.x2h.Mapper.AlbumMapper">
-    <select id="displayAllAlbum" parameterType="top.x2h.entity.Album">
-        select * from album where status = 'public'
+    <resultMap id="AlbumWithUserMap" type="top.x2h.entity.Album">
+        <id property="id" column="album_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="coverUrl" column="cover_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="status" column="album_status"/>
+        <association property="user" javaType="top.x2h.entity.User">
+            <id property="id" column="user_id"/>
+            <result property="nickname" column="nickname"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+    </resultMap>
+
+    <select id="displayAllAlbum" resultMap="AlbumWithUserMap">
+        SELECT
+            a.id AS album_id,
+            a.title,
+            a.description,
+            a.cover_url,
+            a.create_time,
+            a.status AS album_status,
+            u.id AS user_id,
+            u.nickname,
+            u.avatar
+        FROM album a
+                 JOIN user u ON a.user_id = u.id
+        WHERE a.status = 'public'
+        ORDER BY a.create_time DESC
     </select>
+
 
     <insert id="createAlbum" parameterType="top.x2h.entity.Album" useGeneratedKeys="true" keyProperty="id">
         insert into album (title,description,cover_url,status,user_id) values (#{title},#{description},#{coverUrl},#{status},#{userId})
@@ -21,5 +49,72 @@
     <delete id="deleteAlbum" parameterType="top.x2h.entity.Album">
         delete from album where id = #{id}
     </delete>
+
+    <select id="adminDisplayAllAlbum" resultMap="AlbumWithUserMap">
+        SELECT
+            a.id AS album_id,
+            a.title,
+            a.description,
+            a.cover_url,
+            a.create_time,
+            a.status AS album_status,
+            u.id AS user_id,
+            u.nickname,
+            u.avatar
+        FROM album a
+                 JOIN user u ON a.user_id = u.id
+        ORDER BY a.create_time DESC
+    </select>
+
+    <update id="changeAlbumStatus" parameterType="top.x2h.entity.Album">
+        update album set status = #{status} where id = #{albumId}
+    </update>
+
+    <select id="searchAlbumByTagKeywordAndUserId" resultMap="AlbumWithUserMap" parameterType="map">
+        SELECT DISTINCT
+            a.id AS album_id,
+            a.user_id,
+            a.title,
+            a.description,
+            a.cover_url,
+            a.create_time,
+            a.status AS album_status,
+            u.id AS user_id,
+            u.nickname,
+            u.avatar
+        FROM album a
+                 JOIN album_tag at ON a.id = at.album_id
+            JOIN tag t ON t.id = at.tag_id
+            JOIN user u ON a.user_id = u.id
+        WHERE t.name LIKE CONCAT('%', #{keyword}, '%')
+          AND a.user_id = #{userId}
+    </select>
+
+
+    <update id="editAlbum" parameterType="top.x2h.entity.Album">
+        update album set title = #{title}, description = #{description} where id = #{id}
+    </update>
+
+    <select id="selectLikedAlbumsByUserId" resultMap="AlbumWithUserMap">
+        SELECT a.id AS album_id,
+               a.title,
+               a.description,
+               a.cover_url,
+               a.create_time,
+               a.status AS album_status,
+               u.id AS user_id,
+               u.nickname,
+               u.avatar
+        FROM album_like al
+                 JOIN album a ON al.album_id = a.id
+                 JOIN user u ON a.user_id = u.id
+        WHERE al.user_id = #{userId}
+        ORDER BY al.create_time DESC
+    </select>
+
+
+
+
+
 
 </mapper>

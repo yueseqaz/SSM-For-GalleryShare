@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.x2h.Mapper.TagsMapper">
+    <select id="getTagIdByName" resultType="int" parameterType="string">
+        SELECT id FROM tag WHERE name = #{name}
+    </select>
+
+    <insert id="insertTag" parameterType="top.x2h.entity.Tags" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tag (name) VALUES (#{name})
+    </insert>
+
+    <select id="selectTagsByAlbumId" resultType="top.x2h.entity.Tags" parameterType="int">
+        SELECT t.id, t.name
+        FROM tag t
+                 INNER JOIN album_tag at ON t.id = at.tag_id
+        WHERE at.album_id = #{albumId}
+    </select>
+</mapper>

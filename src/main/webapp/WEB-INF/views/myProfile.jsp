@@ -107,11 +107,12 @@
 
 </div>
 <div class="buttons">
-    <a href="${pageContext.request.contextPath}/toUpdatePassword">修改密码</a>
     <a href="${pageContext.request.contextPath}/toUpdateUser?id=${user.id}">修改信息</a>
+    <a href="${pageContext.request.contextPath}/myalbum">我的相册</a>
+    <a href="${pageContext.request.contextPath}/myLike">我的收藏</a>
     <a class="btn btn-danger" href="${pageContext.request.contextPath}/deleteUser?id=${user.id}" onclick="return sakura()">删除该账户</a>
     <a href="${pageContext.request.contextPath}/logout">退出登录</a>
-    <a href="${pageContext.request.contextPath}/homepage">返回主页</a>
+    <a href="${pageContext.request.contextPath}/getAllAlbum">返回主页</a>
 
     <script>
         function sakura() {

@@ -22,16 +22,16 @@
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            width: 100vw;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            width: 100vw;
+            min-height: 100vh;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
@@ -39,6 +39,7 @@
             color: white;
             text-align: center;
             padding: 30px;
+            width: 100%;
         }
 
         .header h1 {
@@ -47,7 +48,11 @@
         }
 
         .form-container {
+            flex: 1;
             padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .form-group {
@@ -82,6 +87,79 @@
         textarea.form-control {
             resize: vertical;
             min-height: 100px;
+        }
+
+        /* 优化后的标签选择样式 */
+        .tags-container {
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tags-container:focus-within {
+            border-color: #4facfe;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+        }
+
+        .tag-item {
+            position: relative;
+        }
+
+        .tag-checkbox {
+            display: none;
+        }
+
+        .tag-label {
+            display: block;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            background: white;
+            color: #666;
+        }
+
+        .tag-label:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+            color: #4facfe;
+        }
+
+        .tag-checkbox:checked + .tag-label {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-color: #4facfe;
+            color: white;
+            transform: scale(0.95);
+        }
+
+        .selected-tags {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .selected-count {
+            background: #4facfe;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
         }
 
         .status-group {
@@ -240,6 +318,44 @@
             font-size: 12px;
             font-weight: bold;
         }
+
+        .tags-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tags-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .tags-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .tags-container::-webkit-scrollbar-thumb:hover {
+            background: #4facfe;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .tags-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+
+            .status-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -270,6 +386,162 @@
                           name="description"
                           class="form-control"
                           placeholder="描述一下这个图册的故事..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>选择标签</label>
+                <div class="tags-container">
+                    <div class="tags-grid">
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="风景" id="tag-风景" class="tag-checkbox">
+                            <label for="tag-风景" class="tag-label">风景</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="旅行" id="tag-旅行" class="tag-checkbox">
+                            <label for="tag-旅行" class="tag-label">旅行</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="美食" id="tag-美食" class="tag-checkbox">
+                            <label for="tag-美食" class="tag-label">美食</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="日常" id="tag-日常" class="tag-checkbox">
+                            <label for="tag-日常" class="tag-label">日常</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="艺术" id="tag-艺术" class="tag-checkbox">
+                            <label for="tag-艺术" class="tag-label">艺术</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="摄影" id="tag-摄影" class="tag-checkbox">
+                            <label for="tag-摄影" class="tag-label">摄影</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="萌宠" id="tag-萌宠" class="tag-checkbox">
+                            <label for="tag-萌宠" class="tag-label">萌宠</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="建筑" id="tag-建筑" class="tag-checkbox">
+                            <label for="tag-建筑" class="tag-label">建筑</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="人物" id="tag-人物" class="tag-checkbox">
+                            <label for="tag-人物" class="tag-label">人物</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="自然" id="tag-自然" class="tag-checkbox">
+                            <label for="tag-自然" class="tag-label">自然</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="夜景" id="tag-夜景" class="tag-checkbox">
+                            <label for="tag-夜景" class="tag-label">夜景</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="文化" id="tag-文化" class="tag-checkbox">
+                            <label for="tag-文化" class="tag-label">文化</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="运动" id="tag-运动" class="tag-checkbox">
+                            <label for="tag-运动" class="tag-label">运动</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="音乐" id="tag-音乐" class="tag-checkbox">
+                            <label for="tag-音乐" class="tag-label">音乐</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="节日" id="tag-节日" class="tag-checkbox">
+                            <label for="tag-节日" class="tag-label">节日</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="科技" id="tag-科技" class="tag-checkbox">
+                            <label for="tag-科技" class="tag-label">科技</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="时尚" id="tag-时尚" class="tag-checkbox">
+                            <label for="tag-时尚" class="tag-label">时尚</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="教育" id="tag-教育" class="tag-checkbox">
+                            <label for="tag-教育" class="tag-label">教育</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="美妆" id="tag-美妆" class="tag-checkbox">
+                            <label for="tag-美妆" class="tag-label">美妆</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="书法" id="tag-书法" class="tag-checkbox">
+                            <label for="tag-书法" class="tag-label">书法</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="电影" id="tag-电影" class="tag-checkbox">
+                            <label for="tag-电影" class="tag-label">电影</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="手工" id="tag-手工" class="tag-checkbox">
+                            <label for="tag-手工" class="tag-label">手工</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="咖啡" id="tag-咖啡" class="tag-checkbox">
+                            <label for="tag-咖啡" class="tag-label">咖啡</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="游戏" id="tag-游戏" class="tag-checkbox">
+                            <label for="tag-游戏" class="tag-label">游戏</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="动漫" id="tag-动漫" class="tag-checkbox">
+                            <label for="tag-动漫" class="tag-label">动漫</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="美甲" id="tag-美甲" class="tag-checkbox">
+                            <label for="tag-美甲" class="tag-label">美甲</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="宠物" id="tag-宠物" class="tag-checkbox">
+                            <label for="tag-宠物" class="tag-label">宠物</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="植物" id="tag-植物" class="tag-checkbox">
+                            <label for="tag-植物" class="tag-label">植物</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="心情" id="tag-心情" class="tag-checkbox">
+                            <label for="tag-心情" class="tag-label">心情</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="校园" id="tag-校园" class="tag-checkbox">
+                            <label for="tag-校园" class="tag-label">校园</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="婚礼" id="tag-婚礼" class="tag-checkbox">
+                            <label for="tag-婚礼" class="tag-label">婚礼</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="派对" id="tag-派对" class="tag-checkbox">
+                            <label for="tag-派对" class="tag-label">派对</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="手绘" id="tag-手绘" class="tag-checkbox">
+                            <label for="tag-手绘" class="tag-label">手绘</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="风格" id="tag-风格" class="tag-checkbox">
+                            <label for="tag-风格" class="tag-label">风格</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="写真" id="tag-写真" class="tag-checkbox">
+                            <label for="tag-写真" class="tag-label">写真</label>
+                        </div>
+                        <div class="tag-item">
+                            <input type="checkbox" name="tagsName" value="其他" id="tag-其他" class="tag-checkbox">
+                            <label for="tag-其他" class="tag-label">其他</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="selected-tags">
+                    <span class="selected-count" id="selectedCount">已选择 0 个</span>
+                    <span id="selectedTagsList">请选择图册标签</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -378,6 +650,34 @@
             input.required = true;
         }
     }
+
+    // 标签选择功能
+    document.addEventListener('DOMContentLoaded', function() {
+        var tagCheckboxes = document.querySelectorAll('.tag-checkbox');
+        var selectedCount = document.getElementById('selectedCount');
+        var selectedTagsList = document.getElementById('selectedTagsList');
+
+        function updateSelectedTags() {
+            var selectedTags = [];
+            tagCheckboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selectedTags.push(checkbox.value);
+                }
+            });
+
+            selectedCount.textContent = '已选择 ' + selectedTags.length + ' 个';
+
+            if (selectedTags.length > 0) {
+                selectedTagsList.textContent = selectedTags.join(', ');
+            } else {
+                selectedTagsList.textContent = '请选择图册标签';
+            }
+        }
+
+        tagCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateSelectedTags);
+        });
+    });
 </script>
 </body>
 </html>

@@ -114,6 +114,8 @@ public String deleteUser(@RequestParam Integer id,HttpSession session){
     userService.adminUpdateUser(user);
     return "redirect:/admin/getAllUser";
 }
+
+//封禁用户   ----------已经测试通过
 @GetMapping("/banUser")
     public String banUser(@RequestParam Integer id,HttpSession session)
     {
@@ -126,6 +128,9 @@ public String deleteUser(@RequestParam Integer id,HttpSession session){
     userService.adminEditStatus(user);
     return "redirect:/admin/getAllUser";
     }
+
+
+    //解封用户   ----------已经测试通过
     @GetMapping("/unbanUser")
     public String unbanUser(@RequestParam Integer id,HttpSession session)
         {

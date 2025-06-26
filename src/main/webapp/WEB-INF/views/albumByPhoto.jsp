@@ -65,7 +65,6 @@
     </style>
 </head>
 <body>
-<a href="${pageContext.request.contextPath}/homepage">回到首页</a>
 <a href="${pageContext.request.contextPath}/addPhotoToAlbum?albumId=${albumId}">添加图片</a>
 <a href="${pageContext.request.contextPath}/myalbum">返回</a>
 <div class="gallery-container">
@@ -80,6 +79,63 @@
         </div>
     </c:forEach>
 </div>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<c:url var="baseUrl" value="${pageUrl}" />
+
+<tr>
+    <td colspan="12" style="text-align:center; padding: 10px 0;">
+        <c:url var="firstPageUrl" value="${baseUrl}">
+            <c:param name="page" value="1"/>
+            <c:if test="${not empty albumId}">
+                <c:param name="albumId" value="${albumId}"/>
+            </c:if>
+        </c:url>
+        <a href="${firstPageUrl}">首页</a>
+
+        <c:choose>
+            <c:when test="${currentPage > 1}">
+                <c:url var="prevPageUrl" value="${baseUrl}">
+                    <c:param name="page" value="${currentPage - 1}"/>
+                    <c:if test="${not empty albumId}">
+                        <c:param name="albumId" value="${albumId}"/>
+                    </c:if>
+                </c:url>
+                <a href="${prevPageUrl}">上一页</a>
+            </c:when>
+            <c:otherwise>
+                <span style="color:gray;">上一页</span>
+            </c:otherwise>
+        </c:choose>
+
+        <c:choose>
+            <c:when test="${currentPage < totalPages}">
+                <c:url var="nextPageUrl" value="${baseUrl}">
+                    <c:param name="page" value="${currentPage + 1}"/>
+                    <c:if test="${not empty albumId}">
+                        <c:param name="albumId" value="${albumId}"/>
+                    </c:if>
+                </c:url>
+                <a href="${nextPageUrl}">下一页</a>
+            </c:when>
+            <c:otherwise>
+                <span style="color:gray;">下一页</span>
+            </c:otherwise>
+        </c:choose>
+
+        <c:url var="lastPageUrl" value="${baseUrl}">
+            <c:param name="page" value="${totalPages}"/>
+            <c:if test="${not empty albumId}">
+                <c:param name="albumId" value="${albumId}"/>
+            </c:if>
+        </c:url>
+        <a href="${lastPageUrl}">尾页</a>
+
+        第 ${currentPage} 页 / 共 ${totalPages} 页
+    </td>
+</tr>
+
 
 </body>
 </html>

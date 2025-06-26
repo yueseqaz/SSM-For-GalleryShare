@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.x2h.Mapper.FavoriteMapper">
+<mapper namespace="top.x2h.Mapper.LikeMapper">
+
+    <insert id="like" parameterType="top.x2h.entity.Like">
+        INSERT INTO `album_like` (`user_id`, `album_id`) VALUES (#{userId}, #{albumId})
+    </insert>
+    <select id="count" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM album_like WHERE album_id = #{albumId}
+    </select>
+
+    <select id="isLiked" resultType="int" parameterType="top.x2h.entity.Like">
+        SELECT COUNT(*) FROM album_like WHERE album_id = #{albumId} AND user_id = #{userId}
+    </select>
+
 </mapper>

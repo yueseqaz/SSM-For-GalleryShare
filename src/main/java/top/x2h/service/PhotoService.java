@@ -11,5 +11,6 @@ public interface PhotoService {
     List<Photo> displayPhotoByAlbumId(Integer albumId);
     void addPhotosToAlbum(int albumId, List<MultipartFile> photos, String basePath);
     void deletePhoto(Integer id);
+    void adminDeletePhoto(Integer id);
 
 }

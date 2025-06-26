@@ -1,14 +1,13 @@
 package top.x2h.controller;
 
-import com.mysql.cj.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import top.x2h.entity.Album;
 import top.x2h.entity.Photo;
 import top.x2h.entity.User;
+import top.x2h.method.Sakura;
 import top.x2h.service.AlbumService;
 import top.x2h.service.PhotoService;
 
@@ -28,9 +27,10 @@ public class PhotoController {
 
 
 
-    // 查看相册下的所有图片   --------------已通过测试
+    // 查看自己相册下的所有图片   --------------已通过测试
     @GetMapping("/albumByPhoto")
-    public String albumByPhoto(@RequestParam Integer albumId, Model model, HttpSession session){
+    public String albumByPhoto(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "5") Integer size,
+                               @RequestParam Integer albumId, Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -40,11 +40,42 @@ public class PhotoController {
             return "redirect:/myalbum";
         }
         List<Photo> photos = photoService.displayPhotoByAlbumId(albumId);
-       model.addAttribute("photos",photos);
+        List<Photo> pagePhoto= Sakura.page(photos, page, size, model, "photos");
        model.addAttribute("albumId",albumId);
       return "albumByPhoto";
     }
 
+    // 查看公开相册下的所有图片   --------------已通过测试
+    @GetMapping("/publicAlbumByPhoto")
+    public String publicAlbumByPhoto(@RequestParam Integer albumId, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        List<Photo> photos = photoService.displayPhotoByAlbumId(albumId);
+        model.addAttribute("photos",photos);
+        model.addAttribute("albumId",albumId);
+        return "photos";
+    }
+
+
+    // 管理员查看所有图片   --------------已通过测试
+    @GetMapping("/admin/AlbumByPhoto")
+    public String adminAlbumByPhoto(@RequestParam Integer albumId, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        if (!user.getRole().equals("admin")) {
+            model.addAttribute("error", "无权操作！");
+            return "redirect:error";
+        }
+
+        List<Photo> photos = photoService.displayPhotoByAlbumId(albumId);
+        model.addAttribute("photos",photos);
+        model.addAttribute("albumId",albumId);
+        return "/admin/adminAlbumByPhotos";
+    }
 
     //带参数跳转到添加图片页面。 --------------已通过测试
     @GetMapping("/addPhotoToAlbum")
@@ -72,7 +103,7 @@ public class PhotoController {
     }
 
 
-    // 删除图片。 --------------已通过测试
+    // 删除图片    --------------已通过测试
     @GetMapping("/deletePhoto")
     public String deletePhoto(@RequestParam Integer id,@RequestParam Integer albumId, HttpSession session){
         User user = (User) session.getAttribute("user");
@@ -82,4 +113,19 @@ public class PhotoController {
         photoService.deletePhoto(id);
         return "redirect:/albumByPhoto?albumId="+albumId;
     }
+
+    // 管理员删除图片。 --------------已通过测试
+    @GetMapping("/admin/deletePhoto")
+    public String adminDeletePhoto(@RequestParam Integer id,@RequestParam Integer albumId, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        if (!user.getRole().equals("admin")) {
+            return "redirect:/error";
+        }
+        photoService.adminDeletePhoto(id);
+        return "redirect:/admin/AlbumByPhoto?albumId="+albumId;
+    }
+
 }

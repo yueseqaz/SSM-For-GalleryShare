@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.x2h.Mapper.AlbumMapper;
+import top.x2h.Mapper.AlbumTagMapper;
 import top.x2h.Mapper.PhotoMapper;
+import top.x2h.Mapper.TagsMapper;
 import top.x2h.entity.Album;
+import top.x2h.entity.AlbumTag;
 import top.x2h.entity.Photo;
+import top.x2h.entity.Tags;
 import top.x2h.method.Sakura;
 import top.x2h.service.AlbumService;
 
@@ -24,16 +28,18 @@ public class AlbumServiceImpl implements AlbumService {
     private AlbumMapper albumMapper;
     @Autowired
     private PhotoMapper photoMapper;
+    @Autowired
+    private AlbumTagMapper albumTagMapper;
+    @Autowired
+    private TagsMapper tagsMapper;
     @Override
     public List<Album> displayAllAlbum() {
         return albumMapper.displayAllAlbum();
     }
 
     @Override
-    public void createAlbumWithPhotos(Album album, List<MultipartFile> photos, String basePath) {
-
+    public void createAlbumWithPhotos(Album album, List<MultipartFile> photos, String basePath, List<String> tagsName) {
         String dateDir = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
         File dir = new File(basePath, dateDir);
         if (!dir.exists() && !dir.mkdirs()) {
             throw new RuntimeException("创建目录失败：" + dir.getAbsolutePath());
@@ -54,7 +60,6 @@ public class AlbumServiceImpl implements AlbumService {
             }
 
             String url = "/images/" + dateDir + "/" + fileName;
-
             if (i == 0) {
                 coverUrl = url;
             }
@@ -72,7 +77,23 @@ public class AlbumServiceImpl implements AlbumService {
             photo.setAlbumId(album.getId());
             photoMapper.insertPhoto(photo);
         }
+
+        // 处理标签与相册关联
+        for (String tagName : tagsName) {
+            Integer tagId = tagsMapper.getTagIdByName(tagName);
+            if (tagId == null) {
+                Tags newTag = new Tags();
+                newTag.setName(tagName);
+                tagsMapper.insertTag(newTag);
+                tagId = newTag.getId();
+            }
+            AlbumTag albumTag = new AlbumTag();
+            albumTag.setAlbumId(album.getId());
+            albumTag.setTagId(tagId);
+            albumTagMapper.insertAlbumTag(albumTag);
+        }
     }
+
 
 
     @Override
@@ -91,4 +112,26 @@ public class AlbumServiceImpl implements AlbumService {
     public void deleteAlbum(Integer  id) {
         albumMapper.deleteAlbum(id);
     }
+    @Override
+    public List<Album> adminDisplayAllAlbum() {
+        return albumMapper.adminDisplayAllAlbum();
+    }
+    @Override
+    public void changeAlbumStatus(Integer id, String status) {
+        albumMapper.changeAlbumStatus(id,status);
+    }
+    @Override
+    public List<Album> searchAlbumByTagKeywordAndUserId(String keyword, Integer userId) {
+        return albumMapper.searchAlbumByTagKeywordAndUserId(keyword, userId);
+    }
+    @Override
+    public void editAlbum(Album album) {
+        albumMapper.editAlbum(album);
+    }
+    @Override
+    public List<Album> getLikedAlbumsByUserId(Integer userId) {
+        return albumMapper.selectLikedAlbumsByUserId(userId);
+    }
+
+
 }

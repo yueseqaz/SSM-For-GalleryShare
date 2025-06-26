@@ -1,5 +1,8 @@
 package top.x2h.entity;
 import lombok.Data;
+
+import java.util.List;
+
 @Data
 
 public class Album {
@@ -10,5 +13,6 @@ public class Album {
     private  String coverUrl;
     private String createTime;
     private String status;
-
+    private User user;
+    private List<Tags> tags;
 }

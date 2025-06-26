@@ -71,7 +71,7 @@ public class AuthController {
             }
             session.setAttribute("user", user);
             model.addAttribute("user",user);
-            return "redirect:/homepage";
+            return "redirect:/getAllAlbum";
         } else {
             model.addAttribute("error", "账号不存在或密码错误！");
             return "login";
@@ -91,12 +91,11 @@ public class AuthController {
     //修改密码     ---------------------已测试通过
     @PostMapping("/updatePassword")
     public String updatePassword(@RequestParam String email,
-                                 @RequestParam Integer id,
                                  @RequestParam String oldPassword,
                                  @RequestParam String newPassword,
                                  HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
-        currentUser.setId( id);
+        currentUser.setId(currentUser.getId());
         if (currentUser == null) {
             return "redirect:/login";
         }
@@ -114,7 +113,7 @@ public class AuthController {
         userService.updatePassword(currentUser);
         session.setAttribute("user", currentUser);
 
-        return "redirect:/homepage";
+        return "redirect:/getAllAlbum";
     }
 
 

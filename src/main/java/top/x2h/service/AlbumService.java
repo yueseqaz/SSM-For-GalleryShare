@@ -11,8 +11,14 @@ import java.util.List;
 public interface AlbumService {
 
     List<Album> displayAllAlbum();
-    void createAlbumWithPhotos(Album album, List<MultipartFile> photos,String basePath);
+    void createAlbumWithPhotos(Album album, List<MultipartFile> photos,String basePath,List<String> tagsName);
     List<Album> displayMyAllAlbum(Integer userId);
     boolean isYourAlbum(Integer albumId,Integer userId);
     void deleteAlbum(Integer id);
+    List<Album> adminDisplayAllAlbum();
+    void changeAlbumStatus(Integer id,String status);
+    List<Album> searchAlbumByTagKeywordAndUserId(String keyword, Integer userId);
+    void editAlbum(Album album);
+    List<Album> getLikedAlbumsByUserId(Integer userId);
+
 }
