@@ -69,7 +69,7 @@
                     <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                         <i class="fa fa-user"></i>
                     </div>
-                    <span class="hidden md:inline text-dark font-medium">我的账户</span>
+                    <span class="hidden md:inline text-dark font-medium"><strong>${user.nickname}</strong></span>
                     <i class="fa fa-angle-down text-dark/60"></i>
                 </button>
 
@@ -81,8 +81,8 @@
                         <i class="fa fa-heart mr-2"></i> 我的喜欢
                     </a>
 <%--                    更改密码--%>
-                    <a href="${pageContext.request.contextPath}/toUpdatePassword" class="block px-4 py-2 text-dark/80 hover:bg-gray-50 hover:text-primary transition-colors">
-                        <i class="fa fa-lock mr-2"></i> 更改密码
+                    <a href="${pageContext.request.contextPath}/toUpdateUser?id=${user.id}" class="block px-4 py-2 text-dark/80 hover:bg-gray-50 hover:text-primary transition-colors">
+                        <i class="fa fa-cog mr-2"></i> 更改个人信息
                     </a>
                     <a href="${pageContext.request.contextPath}/toUpload" class="block px-4 py-2 text-dark/80 hover:bg-gray-50 hover:text-primary transition-colors">
                         <i class="fa fa-upload mr-2"></i> 上传图片
@@ -185,7 +185,10 @@
                                 <i class="fa fa-eye"></i> 查看
                             </a>
                             <a href="${pageContext.request.contextPath}/like?albumId=${album.id}&userId=${album.user.id}" class="text-primary hover:text-primary/80 transition-colors">
-                                <i class="fa fa-heart-o"></i> 点赞
+                                <i class="fa fa-heart"></i> 点赞
+                            </a>
+                            <a href="${pageContext.request.contextPath}/cancelLike?albumId=${album.id}&userId=${album.user.id}" class="text-primary hover:text-primary/80 transition-colors">
+                                <i class="fa fa-heart-o"></i> 取消点赞
                             </a>
                         </div>
                     </div>

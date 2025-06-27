@@ -12,5 +12,5 @@ public interface LikeService {
     void like(Integer albumId,Integer userId);
     Integer count(Integer albumId);
     Integer isLiked(Integer albumId,Integer userId);
-
+    void cancelLike( Integer albumId,Integer  userId);
 }

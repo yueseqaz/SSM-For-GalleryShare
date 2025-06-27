@@ -14,4 +14,8 @@
         SELECT COUNT(*) FROM album_like WHERE album_id = #{albumId} AND user_id = #{userId}
     </select>
 
+    <delete id="cancelLike" parameterType="top.x2h.entity.Like">
+        DELETE FROM album_like WHERE album_id = #{albumId} AND user_id = #{userId}
+    </delete>
+
 </mapper>

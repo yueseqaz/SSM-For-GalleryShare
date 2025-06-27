@@ -1,7 +1,6 @@
 package top.x2h.entity;
 import lombok.Data;
 
-
 @Data
 
 public class User {

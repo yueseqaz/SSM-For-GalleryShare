@@ -20,5 +20,6 @@ public interface AlbumService {
     List<Album> searchAlbumByTagKeywordAndUserId(String keyword, Integer userId);
     void editAlbum(Album album);
     List<Album> getLikedAlbumsByUserId(Integer userId);
+    Album selectAlbumById(Integer id);
 
 }

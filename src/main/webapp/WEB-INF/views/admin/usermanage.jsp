@@ -143,7 +143,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <a href="${pageContext.request.contextPath}/admin/toUpdateUser?id=${user.id}" class="text-primary hover:text-primary/80 mr-4">
-                                <i class="fa fa-edit mr-1"></i>编辑
+                                <i class="fa fa-edit mr-1"></i>编辑与查看
                             </a>
                             <a href="${pageContext.request.contextPath}/admin/deleteUser?id=${user.id}" class="text-danger hover:text-danger/80" onclick="return confirm('确定要删除用户 ${user.nickname} 吗？')">
                                 <i class="fa fa-trash mr-1"></i>删除

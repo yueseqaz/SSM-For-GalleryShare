@@ -6,5 +6,6 @@ public interface LikeMapper {
     void like(@Param("albumId") Integer albumId, @Param("userId") Integer userId);
     Integer count(@Param("albumId") int albumId);
     Integer isLiked(@Param("albumId") int albumId, @Param("userId") int userId);
+    void cancelLike(@Param("albumId") int albumId, @Param("userId") int userId);
 
 }

@@ -208,31 +208,42 @@ public class AlbumController {
     }
 
 
-    @PostMapping ("/editAlbum")
-    public String editAlbum(@ModelAttribute Album album, HttpSession session, HttpServletRequest  request){
-        User user=(User) session.getAttribute("user");
+    @PostMapping("/editAlbum")
+    public String editAlbum(@ModelAttribute Album album, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
-        album.setTitle(request.getParameter("title"));
-        album.setDescription(request.getParameter("description"));
-        album.setUserId(user.getId());
+
         albumService.editAlbum(album);
-        return "redirect:/myalbum";
+        return "redirect:/admin/getAllAlbum";
     }
 
-    //修改相册 ------------未实现
+
+    //修改相册获取 以及把ID 传给编辑页面 标题 描述  ------------已完成
     @GetMapping("/editAlbum")
     public String toEditAlbum(@RequestParam Integer albumId, Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
-        model.addAttribute("albumId", albumId); // 将id传到JSP页面中
+        if (!albumService.isYourAlbum(albumId, user.getId())){
+            model.addAttribute("error", "无权操作！");
+        }
+        Album album = albumService.selectAlbumById(albumId);
+        model.addAttribute("album", album);
         return "editAlbum"; // 返回视图名 editAlbum.jsp
     }
 
-
+    @GetMapping("/admin/editAlbum")
+    public String adminToEditAlbum(@RequestParam Integer albumId, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getRole().equals("admin"))
+        {return "redirect:/login";}
+        Album album = albumService.selectAlbumById(albumId);
+        model.addAttribute("album", album);
+        return "editAlbum";
+    }
 
 
 

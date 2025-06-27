@@ -42,7 +42,7 @@ public String getAllUser(HttpSession session,
 //添加用户  ---------已经测试通过
     @PostMapping("/addUser")
     public String addUser(@RequestParam String email, @RequestParam String password,@RequestParam String answer,@RequestParam String nickname,@RequestParam String address,
-    @RequestParam String gender,@RequestParam String status,@RequestParam String avatar,@RequestParam String role,@RequestParam Integer age,@RequestParam String bio,@RequestParam String intro, HttpSession session) {
+    @RequestParam String gender,@RequestParam String avatar,@RequestParam String role,@RequestParam Integer age,@RequestParam String bio,@RequestParam String intro, HttpSession session) {
         User currentUser = Sakura.checkAdmin(session);
         if (currentUser == null) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "你没有权限访问这个接口！");

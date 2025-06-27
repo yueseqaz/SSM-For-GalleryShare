@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.x2h.Mapper.DashboardMapper">
+
+    <select id="countAllUsers" resultType="int">
+        SELECT COUNT(*) FROM user
+    </select>
+
+    <select id="countActiveUsers" resultType="int">
+        SELECT COUNT(*) FROM user WHERE status = 'active'
+    </select>
+
+    <select id="countAdminUsers" resultType="int">
+        SELECT COUNT(*) FROM user WHERE role = 'admin'
+    </select>
+
+    <select id="countAllAlbums" resultType="int">
+        SELECT COUNT(*) FROM album
+    </select>
+
+    <select id="countPublicAlbums" resultType="int">
+        SELECT COUNT(*) FROM album WHERE status = 'public'
+    </select>
+
+    <select id="countAllPhotos" resultType="int">
+        SELECT COUNT(*) FROM photo
+    </select>
+
+    <select id="countAllLikes" resultType="int">
+        SELECT COUNT(*) FROM album_like
+    </select>
+
+    <select id="findMostLikedAlbum" resultType="map">
+        SELECT a.id, a.title, COUNT(*) AS like_count
+        FROM album_like al
+                 JOIN album a ON al.album_id = a.id
+        GROUP BY al.album_id
+        ORDER BY like_count DESC
+            LIMIT 1
+    </select>
+
+</mapper>

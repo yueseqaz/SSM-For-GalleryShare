@@ -87,12 +87,12 @@
             JOIN tag t ON t.id = at.tag_id
             JOIN user u ON a.user_id = u.id
         WHERE t.name LIKE CONCAT('%', #{keyword}, '%')
-          AND a.user_id = #{userId}
+          AND a.status = 'public'
     </select>
 
 
     <update id="editAlbum" parameterType="top.x2h.entity.Album">
-        update album set title = #{title}, description = #{description} where id = #{id}
+        update album set title = #{title}, description = #{description},cover_url = #{coverUrl} where id = #{id}
     </update>
 
     <select id="selectLikedAlbumsByUserId" resultMap="AlbumWithUserMap">
@@ -112,6 +112,21 @@
         ORDER BY al.create_time DESC
     </select>
 
+
+    <select id="selectAlbumById" resultMap="AlbumWithUserMap">
+        SELECT a.id AS album_id,
+               a.title,
+               a.description,
+               a.cover_url,
+               a.create_time,
+               a.status AS album_status,
+               u.id AS user_id,
+               u.nickname,
+               u.avatar
+        FROM album a
+                 JOIN user u ON a.user_id = u.id
+        WHERE a.id = #{id}
+    </select>
 
 
 

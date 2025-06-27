@@ -107,18 +107,16 @@
 
 </div>
 <div class="buttons">
-    <a href="${pageContext.request.contextPath}/toUpdateUser?id=${user.id}">修改信息</a>
-    <a href="${pageContext.request.contextPath}/myalbum">我的相册</a>
-    <a href="${pageContext.request.contextPath}/myLike">我的收藏</a>
     <a class="btn btn-danger" href="${pageContext.request.contextPath}/deleteUser?id=${user.id}" onclick="return sakura()">删除该账户</a>
     <a href="${pageContext.request.contextPath}/logout">退出登录</a>
     <a href="${pageContext.request.contextPath}/getAllAlbum">返回主页</a>
+</div>
 
     <script>
         function sakura() {
             return confirm("确定要删除该账户吗？");
         }
     </script>
-
+</body>
 </html>
 

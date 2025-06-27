@@ -53,4 +53,27 @@ public class LikeController {
         return "myLike";
     }
 
+
+    @GetMapping("/cancelLike")
+    public String cancelLike(@RequestParam Integer albumId, HttpSession session, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        likeService.cancelLike(albumId, user.getId());
+        redirectAttributes.addFlashAttribute("success", "取消点赞成功！");
+        return "redirect:/getAllAlbum";
+    }
+
+    @GetMapping("/myLikeCancelLike")
+    public String MyLikeCancelLike(@RequestParam Integer albumId, HttpSession session, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        likeService.cancelLike(albumId, user.getId());
+        redirectAttributes.addFlashAttribute("success", "取消点赞成功！");
+        return "redirect:/myLike";
+    }
+
     }

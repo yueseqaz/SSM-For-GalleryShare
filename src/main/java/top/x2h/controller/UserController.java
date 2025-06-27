@@ -78,6 +78,7 @@ public class UserController {
         model.addAttribute("user", user);
         return "userDetail";
     }
+    
 
 
     // 删除用户  -----------------已通过测试

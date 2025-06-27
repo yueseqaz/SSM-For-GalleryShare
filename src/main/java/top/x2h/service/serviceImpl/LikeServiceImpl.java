@@ -30,4 +30,9 @@ public class LikeServiceImpl implements LikeService {
     }
 
 
+    @Override
+    public void cancelLike(Integer albumId, Integer userId) {
+        likeMapper.cancelLike(albumId,userId);
+    }
+
 }

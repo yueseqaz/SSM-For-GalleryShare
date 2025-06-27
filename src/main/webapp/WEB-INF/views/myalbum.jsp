@@ -257,7 +257,7 @@
                 </div>
                 <h3 class="text-lg font-medium text-dark mb-2">你还没有创建任何相册</h3>
                 <p class="text-dark/60 mb-6">点击下方按钮创建你的第一个相册</p>
-                <a href="${pageContext.request.contextPath}/createAlbum" class="inline-flex items-center bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-custom shadow-md hover:shadow-lg">
+                <a href="${pageContext.request.contextPath}/toUpload" class="inline-flex items-center bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-custom shadow-md hover:shadow-lg">
                     <i class="fa fa-plus mr-2"></i>
                     <span>创建相册</span>
                 </a>
@@ -301,6 +301,8 @@
 </footer>
 
 <script>
+
+
     // 用户菜单切换
     const userMenuBtn = document.getElementById('userMenuBtn');
     const userMenu = document.getElementById('userMenu');

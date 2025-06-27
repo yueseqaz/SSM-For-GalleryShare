@@ -72,11 +72,70 @@
                  crossorigin="use-credentials"
                  onerror="this.onerror=null;this.src='images/default-cover.jpg'" />
             <div class="photo-info">
-                <a href="${pageContext.request.contextPath}/admin/deletePhoto?id=${photo.id}&albumId=${albumId}">删除</a>
+                <a href="${pageContext.request.contextPath}/admin/deletePhoto?id=${photo.id}&albumId=${albumId}" onclick="return sakura()">删除</a>
             </div>
         </div>
     </c:forEach>
 </div>
+<c:url var="baseUrl" value="${pageUrl}" />
+
+<tr>
+    <td colspan="12" style="text-align:center; padding: 10px 0;">
+        <c:url var="firstPageUrl" value="${baseUrl}">
+            <c:param name="page" value="1"/>
+            <c:if test="${not empty albumId}">
+                <c:param name="albumId" value="${albumId}"/>
+            </c:if>
+        </c:url>
+        <a href="${firstPageUrl}">首页</a>
+
+        <c:choose>
+            <c:when test="${currentPage > 1}">
+                <c:url var="prevPageUrl" value="${baseUrl}">
+                    <c:param name="page" value="${currentPage - 1}"/>
+                    <c:if test="${not empty albumId}">
+                        <c:param name="albumId" value="${albumId}"/>
+                    </c:if>
+                </c:url>
+                <a href="${prevPageUrl}">上一页</a>
+            </c:when>
+            <c:otherwise>
+                <span style="color:gray;">上一页</span>
+            </c:otherwise>
+        </c:choose>
+
+        <c:choose>
+            <c:when test="${currentPage < totalPages}">
+                <c:url var="nextPageUrl" value="${baseUrl}">
+                    <c:param name="page" value="${currentPage + 1}"/>
+                    <c:if test="${not empty albumId}">
+                        <c:param name="albumId" value="${albumId}"/>
+                    </c:if>
+                </c:url>
+                <a href="${nextPageUrl}">下一页</a>
+            </c:when>
+            <c:otherwise>
+                <span style="color:gray;">下一页</span>
+            </c:otherwise>
+        </c:choose>
+
+        <c:url var="lastPageUrl" value="${baseUrl}">
+            <c:param name="page" value="${totalPages}"/>
+            <c:if test="${not empty albumId}">
+                <c:param name="albumId" value="${albumId}"/>
+            </c:if>
+        </c:url>
+        <a href="${lastPageUrl}">尾页</a>
+
+        第 ${currentPage} 页 / 共 ${totalPages} 页
+    </td>
+</tr>
+
 
 </body>
+<script>
+    function sakura() {
+        return confirm("确定要删除该照片吗？");
+    }
+</script>
 </html>

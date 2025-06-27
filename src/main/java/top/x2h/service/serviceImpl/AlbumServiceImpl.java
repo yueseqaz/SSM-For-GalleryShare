@@ -132,6 +132,9 @@ public class AlbumServiceImpl implements AlbumService {
     public List<Album> getLikedAlbumsByUserId(Integer userId) {
         return albumMapper.selectLikedAlbumsByUserId(userId);
     }
-
+    @Override
+    public Album selectAlbumById(Integer id) {
+        return albumMapper.selectAlbumById(id);
+    }
 
 }

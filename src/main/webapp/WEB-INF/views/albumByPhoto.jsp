@@ -74,13 +74,11 @@
                  crossorigin="use-credentials"
                  onerror="this.onerror=null;this.src='images/default-cover.jpg'" />
             <div class="photo-info">
-                <a href="${pageContext.request.contextPath}/deletePhoto?id=${photo.id}&albumId=${albumId}">删除</a>
+                <a href="${pageContext.request.contextPath}/deletePhoto?id=${photo.id}&albumId=${albumId}" onclick=" return sakura()">删除</a>
             </div>
         </div>
     </c:forEach>
 </div>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 
 <c:url var="baseUrl" value="${pageUrl}" />
 
@@ -138,4 +136,10 @@
 
 
 </body>
+<script>
+    function sakura() {
+        return confirm("确定要删除该图片吗？");
+    }
+</script>
+
 </html>

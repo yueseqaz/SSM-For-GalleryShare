@@ -16,7 +16,7 @@ public interface AlbumMapper {
     List<Album> searchAlbumByTagKeywordAndUserId(@Param("keyword") String keyword, @Param("userId") Integer userId);
     void editAlbum(Album album);
     List<Album> selectLikedAlbumsByUserId(@Param("userId") Integer userId);
-
+    Album selectAlbumById(@Param("id") Integer id);
 
 
 }

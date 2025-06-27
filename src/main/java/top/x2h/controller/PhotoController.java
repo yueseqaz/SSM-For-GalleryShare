@@ -47,13 +47,15 @@ public class PhotoController {
 
     // 查看公开相册下的所有图片   --------------已通过测试
     @GetMapping("/publicAlbumByPhoto")
-    public String publicAlbumByPhoto(@RequestParam Integer albumId, Model model, HttpSession session){
+    public String publicAlbumByPhoto(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "6") Integer size,
+            @RequestParam Integer albumId, Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
         List<Photo> photos = photoService.displayPhotoByAlbumId(albumId);
-        model.addAttribute("photos",photos);
+        List<Photo> pagePhoto= Sakura.page(photos, page,size, model, "photos");
+        model.addAttribute("photos", pagePhoto);
         model.addAttribute("albumId",albumId);
         return "photos";
     }
@@ -61,7 +63,8 @@ public class PhotoController {
 
     // 管理员查看所有图片   --------------已通过测试
     @GetMapping("/admin/AlbumByPhoto")
-    public String adminAlbumByPhoto(@RequestParam Integer albumId, Model model, HttpSession session){
+    public String adminAlbumByPhoto(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "15") Integer size,
+            @RequestParam Integer albumId, Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -72,7 +75,8 @@ public class PhotoController {
         }
 
         List<Photo> photos = photoService.displayPhotoByAlbumId(albumId);
-        model.addAttribute("photos",photos);
+        List<Photo> pagePhoto= Sakura.page(photos, page,size, model, "photos");
+        model.addAttribute("photos", pagePhoto);
         model.addAttribute("albumId",albumId);
         return "/admin/adminAlbumByPhotos";
     }
